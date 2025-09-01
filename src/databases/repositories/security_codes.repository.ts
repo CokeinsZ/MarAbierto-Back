@@ -17,7 +17,7 @@ export class SecurityCodesRepository {
    */
   async create(userId: number, code: string, expirationTime = 10): Promise<SecurityCode> {
     const rows = await this.db.query<SecurityCode>`
-      INSERT INTO security_codes (user_id, code, expires_at)
+      INSERT INTO securitycodes (user_id, code, expires_at)
       VALUES (${userId}, ${code}, NOW() + (${expirationTime} || ' minutes')::interval)
       ON CONFLICT (user_id) DO UPDATE
         SET code = EXCLUDED.code,
@@ -28,7 +28,7 @@ export class SecurityCodesRepository {
   }
 
   async find(userId: number): Promise<SecurityCode | null> {
-    const rows = await this.db.query<SecurityCode>`SELECT * FROM security_codes WHERE user_id = ${userId}`;
+    const rows = await this.db.query<SecurityCode>`SELECT * FROM securitycodes WHERE user_id = ${userId}`;
     return rows[0] || null;
   }
 
@@ -38,13 +38,13 @@ export class SecurityCodesRepository {
   }
 
   async erase(userId: number): Promise<void> {
-    await this.db.query`DELETE FROM security_codes WHERE user_id = ${userId}`;
+    await this.db.query`DELETE FROM securitycodes WHERE user_id = ${userId}`;
   }
 
   async purgeExpired(): Promise<number> {
     const rows = await this.db.query<{ deleted: number }>`
       WITH deleted AS (
-        DELETE FROM security_codes WHERE expires_at < NOW() RETURNING 1
+        DELETE FROM securitycodes WHERE expires_at < NOW() RETURNING 1
       )
       SELECT COUNT(*)::int AS deleted FROM deleted`;
     return rows[0]?.deleted ?? 0;

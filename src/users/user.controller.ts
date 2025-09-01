@@ -22,6 +22,7 @@ export class UserController {
   @Public()
   @Post('verify-email')
   verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
+    console.log(verifyEmailDto);
     return this.usersService.verifyEmail(verifyEmailDto);
   }
 

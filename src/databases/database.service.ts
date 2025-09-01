@@ -1,6 +1,6 @@
 // database.service.ts
 import { neon, NeonQueryFunction } from '@neondatabase/serverless';
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -17,13 +17,43 @@ export class DatabaseService {
 
   // Uso preferido: this.db.query`SELECT * FROM users WHERE email = ${email}`
   async query<T = any>(strings: TemplateStringsArray, ...values: any[]): Promise<T[]> {
-    const rows = await (this.sql as any)(strings, ...values);
-    return rows as T[];
+    try {
+      const rows = await (this.sql as any)(strings, ...values);
+      return rows as T[];
+
+    } catch (err: any) {
+      // Postgres unique violation
+      if (err?.code === '23505') {
+        const constraint = err.constraint || '';
+        const detail: string = err.detail || '';
+        if (constraint.includes('email') || detail.includes('(email)'))
+          throw new ConflictException('Email already exists');
+        if (constraint.includes('national_id') || detail.includes('(national_id)'))
+          throw new ConflictException('National ID already exists');
+        throw new ConflictException('Duplicate value for a unique field');
+      }
+      throw err;
+    }
   }
 
   // Para queries construidas dinámicamente con placeholders $1, $2 ...
   async unsafe<T = any>(text: string, params?: any[]): Promise<T[]> {
-    const rows = await (this.sql as any).unsafe(text, params);
-    return rows as T[];
+    try {
+      const rows = await (this.sql as any).unsafe(text, params);
+      return rows as T[];
+
+    } catch (err: any) {
+      // Postgres unique violation
+      if (err?.code === '23505') {
+        const constraint = err.constraint || '';
+        const detail: string = err.detail || '';
+        if (constraint.includes('email') || detail.includes('(email)'))
+          throw new ConflictException('Email already exists');
+        if (constraint.includes('national_id') || detail.includes('(national_id)'))
+          throw new ConflictException('National ID already exists');
+        throw new ConflictException('Duplicate value for a unique field');
+      }
+      throw err;
+    }
   }
 }

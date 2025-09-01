@@ -8,6 +8,7 @@ import { JwtAuthGuard } from './tools/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './tools/guards/roles.guard';
 import { AbilitiesModule } from './tools/abilities/abilities.module';
+import { JwtStrategy } from './tools/strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { AbilitiesModule } from './tools/abilities/abilities.module';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
-    DatabaseService,
+    JwtStrategy,
+    DatabaseService
   ],
 })
 export class AppModule {}

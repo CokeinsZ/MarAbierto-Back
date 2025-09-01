@@ -9,11 +9,12 @@ import { AbilitiesModule } from 'src/tools/abilities/abilities.module';
 
 @Module({
   imports: [
-    DatabaseModule,
-    AbilitiesModule,
-    JwtModule.register({}),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({}),
+    DatabaseModule,
+    AbilitiesModule
   ],
+
   controllers: [UserController],
   providers: [UsersService, EmailService],
   exports: [UsersService],
