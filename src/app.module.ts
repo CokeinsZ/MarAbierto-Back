@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './tools/guards/roles.guard';
 import { AbilitiesModule } from './tools/abilities/abilities.module';
 import { JwtStrategy } from './tools/strategies/jwt.strategy';
+import { MailModule } from './mails/mails.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtStrategy } from './tools/strategies/jwt.strategy';
     UserModule,
     AbilitiesModule,
     DatabaseModule,
+    MailModule,
   ],
   controllers: [],
   providers: [

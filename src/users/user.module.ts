@@ -3,7 +3,7 @@ import { UsersService } from './user.service';
 import { UserController } from './user.controller';
 import { DatabaseModule } from '../databases/database.module';
 import { JwtModule } from '@nestjs/jwt';
-import { EmailService } from './email.service';
+import { MailModule } from '../mails/mails.module';
 import { PassportModule } from '@nestjs/passport';
 import { AbilitiesModule } from 'src/tools/abilities/abilities.module';
 
@@ -12,11 +12,12 @@ import { AbilitiesModule } from 'src/tools/abilities/abilities.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({}),
     DatabaseModule,
-    AbilitiesModule
+    AbilitiesModule,
+    MailModule,
   ],
 
   controllers: [UserController],
-  providers: [UsersService, EmailService],
+  providers: [UsersService],
   exports: [UsersService],
 })
 export class UserModule {}

@@ -20,7 +20,7 @@ import { SecurityCodesRepository } from '../databases/repositories/security_code
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { EmailService } from './email.service';
+import { MailService } from '../mails/mail.service';
 
 @Injectable()
 export class UsersService implements UserServiceInterface {
@@ -29,19 +29,20 @@ export class UsersService implements UserServiceInterface {
     private readonly securityCodesRepository: SecurityCodesRepository,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly emailService: EmailService,
+    private readonly mailService: MailService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const exists = await this.userRepository.findByEmail(createUserDto.email);
     if (exists) throw new ConflictException('Email already exists');
+
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const savedUser = await this.userRepository.createUser({ ...createUserDto, password: hashedPassword });
     if (!savedUser) throw new BadRequestException('User creation failed');
 
-    const code = Math.floor(1000 + Math.random() * 9000).toString(); // 4 dígitos (tu tabla soporta 4)
+    const code = Math.floor(1000 + Math.random() * 9000).toString(); // 4 dígitos
     await this.securityCodesRepository.create(savedUser.user_id, code, 15);
-    await this.emailService.sendVerificationEmail(savedUser.email, code);
+    await this.mailService.sendVerificationEmail(savedUser.email, savedUser.name, code);
     return this.toUserInterface(savedUser);
   }
 
@@ -119,7 +120,7 @@ export class UsersService implements UserServiceInterface {
     const code = Math.floor(1000 + Math.random() * 9000).toString();
     await this.securityCodesRepository.update(user.user_id, code, 15);
 
-    await this.emailService.sendVerificationEmail(user.email, code);
+    await this.mailService.sendVerificationEmail(user.email, user.name, code);
     return { message: 'Verification code resent successfully' };
   }
 
@@ -152,7 +153,6 @@ export class UsersService implements UserServiceInterface {
       last_name: user.last_name,
       national_id: user.national_id,
       email: user.email,
-      password: user.password,
       phone: user.phone,
       address: user.address,
       role: user.role,

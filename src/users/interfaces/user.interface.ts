@@ -26,7 +26,7 @@ export interface User {
   last_name: string;
   national_id: string;
   email: string;
-  password: string;
+  password?: string;
   phone: string;
   address?: string;
   status: user_status;
