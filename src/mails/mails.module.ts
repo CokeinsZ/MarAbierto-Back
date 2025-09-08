@@ -17,9 +17,7 @@ import { MailService } from './mail.service';
         const portRaw = config.get<string>('MAIL_PORT') ?? '0';
         const port = parseInt(portRaw, 10);
         const secureEnv = (config.get<string>('MAIL_SECURE') || '').toLowerCase();
-        // If secure explicitly provided use it, else infer: only port 465 => secure
         let secure = ['true', '1', 'yes'].includes(secureEnv) || (secureEnv === '' && port === 465);
-        // STARTTLS typical ports should not use secure:true on initial connection
         if (secure && (port === 587 || port === 25)) {
           logger.warn(`MAIL_SECURE=true with port ${port}. For STARTTLS on ${port} set MAIL_SECURE=false. Forcing secure=false.`);
           secure = false;
