@@ -14,8 +14,8 @@ export interface Fish {
     habitat: string;
     mean_size?: number;
     mean_weight?: number;
-    diet?: string;
-    img?: string;
+    diet: string;
+    img: string;
 }
 
 export interface FishServiceInterface {

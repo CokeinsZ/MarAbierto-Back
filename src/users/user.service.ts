@@ -15,8 +15,8 @@ import {
   VerifyEmailDto,
 } from './dtos/user.dto';
 import { User, user_status, UserServiceInterface } from './interfaces/user.interface';
-import { UsersRepository } from '../databases/repositories/users.repository';
-import { SecurityCodesRepository } from '../databases/repositories/security_codes.repository';
+import { UsersRepository } from '../databases/repositories/users/users.repository';
+import { SecurityCodesRepository } from '../databases/repositories/users/security_codes.repository';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';

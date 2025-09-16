@@ -1,12 +1,11 @@
 import {
-  IsEmail,
   IsNotEmpty,
   IsString,
-  MinLength,
   IsOptional,
-  IsEnum,
   MaxLength,
-  IsNumber
+  IsNumber,
+  Min,
+  Max
 } from 'class-validator';
 
 export class CreateFishDto {
@@ -26,17 +25,19 @@ export class CreateFishDto {
 
     @IsOptional()
     @IsNumber()
+    @Min(0)
     mean_size?: number;
 
     @IsOptional()
     @IsNumber()
+    @Min(0)
     mean_weight?: number;
 
     @IsNotEmpty()
     @IsString()
     diet: string;
 
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     @MaxLength(255)
     img?: string;
@@ -96,10 +97,13 @@ export class FilterByDietDto {
 export class FilterBySizeDto {
     @IsNotEmpty()
     @IsNumber()
+    @Min(0)
     minSize: number;
 
     @IsNotEmpty()
     @IsNumber()
+    @Min(0)
+    @Max(10000)
     maxSize: number;
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from '../database.service';
+import { DatabaseService } from '../../database.service';
 
 export interface SecurityCode {
   user_id: number;
