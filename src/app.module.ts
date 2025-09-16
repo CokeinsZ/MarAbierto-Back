@@ -10,6 +10,7 @@ import { RolesGuard } from './tools/guards/roles.guard';
 import { AbilitiesModule } from './tools/abilities/abilities.module';
 import { JwtStrategy } from './tools/strategies/jwt.strategy';
 import { MailModule } from './mails/mails.module';
+import { FishesModule } from './fishes/fishes.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MailModule } from './mails/mails.module';
     AbilitiesModule,
     DatabaseModule,
     MailModule,
+    FishesModule,
   ],
   controllers: [],
   providers: [
