@@ -46,6 +46,7 @@ export class UsersRepository {
         const sql = `UPDATE users SET ${setClauses.join(', ')} WHERE user_id = $${whereIndex} RETURNING *`;
         values.push(id);
         const rows = await this.db.unsafe<User>(sql, values);
+        console.log(rows);
         return rows[0];
     }
 

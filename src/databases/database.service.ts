@@ -39,7 +39,7 @@ export class DatabaseService {
   // Para queries construidas dinámicamente con placeholders $1, $2 ...
   async unsafe<T = any>(text: string, params?: any[]): Promise<T[]> {
     try {
-      const rows = await (this.sql as any).unsafe(text, params);
+      const rows = await (this.sql as any).query(text, params);
       return rows as T[];
 
     } catch (err: any) {
