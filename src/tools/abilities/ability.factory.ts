@@ -62,6 +62,12 @@ export class AbilityFactory {
       subject: 'Product',
     });
 
+    // Allow users to read fish catalog
+    rules.push({
+      action: Action.Read,
+      subject: 'Fish',
+    });
+
     rules.push({
       action: Action.Read,
       subject: 'Category',
