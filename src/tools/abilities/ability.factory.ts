@@ -123,6 +123,12 @@ export class AbilityFactory {
       subject: 'User',
     });
     
+    // Allow users to manage their own User-Fish relations
+    rules.push({ action: Action.Read, subject: 'UserFish' });
+    rules.push({ action: Action.Create, subject: 'UserFish' });
+    rules.push({ action: Action.Update, subject: 'UserFish' });
+    rules.push({ action: Action.Delete, subject: 'UserFish' });
+    
     return { rules };
   }
 

@@ -11,6 +11,7 @@ import { AbilitiesModule } from './tools/abilities/abilities.module';
 import { JwtStrategy } from './tools/strategies/jwt.strategy';
 import { MailModule } from './mails/mails.module';
 import { FishesModule } from './fishes/fishes.module';
+import { UserFishModule } from './user_fish/user_fish.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FishesModule } from './fishes/fishes.module';
     DatabaseModule,
     MailModule,
     FishesModule,
+    UserFishModule,
   ],
   controllers: [],
   providers: [
