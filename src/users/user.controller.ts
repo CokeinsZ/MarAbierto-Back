@@ -99,9 +99,6 @@ export class UserController {
     @Param('id') id: number,
     @Body() updateUserStatusDto: UpdateUserStatusDto,
   ) {
-    if (!Object.values(user_status).includes(updateUserStatusDto.status)) {
-      throw new ForbiddenException('Invalid status provided');
-    }
 
     return this.usersService.updateStatus(id, updateUserStatusDto);
   }
@@ -113,10 +110,6 @@ export class UserController {
     @Body() updateUserRoleDto: UpdateUserRoleDto,
   ) {
 
-    if (!Object.values(user_role).includes(updateUserRoleDto.role)) {
-      throw new ForbiddenException('Invalid role provided');
-    }
-
     return this.usersService.updateRole(id, updateUserRoleDto);
   }
 
@@ -127,7 +120,7 @@ export class UserController {
   }
 
   @Public()
-  @Post(':id/change-password')
+  @Patch(':id/change-password')
   changePassword(
     @Param('id') id: number,
     @Body() changePasswordDto: ChangePasswordDto,
