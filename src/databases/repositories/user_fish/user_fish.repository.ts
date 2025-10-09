@@ -18,7 +18,13 @@ export class UserFishRepository {
     return this.db.query<UserFish>`SELECT * FROM user_fish WHERE user_id = ${user_id}`;
   }
 
-  async findOne(user_id: number, fish_id: number): Promise<UserFish | null> {
+  async findOneById(id: number): Promise<UserFish | null> {
+    const rows = await this.db.query<UserFish>`
+      SELECT * FROM user_fish WHERE id = ${id}`;
+    return rows[0] || null;
+  }
+
+  async findByUserIdAndFishId(user_id: number, fish_id: number): Promise<UserFish | null> {
     const rows = await this.db.query<UserFish>`
       SELECT * FROM user_fish WHERE user_id = ${user_id} AND fish_id = ${fish_id}`;
     return rows[0] || null;
@@ -44,7 +50,7 @@ export class UserFishRepository {
     return rows[0];
   }
 
-  async unlink(user_id: number, fish_id: number): Promise<void> {
-    await this.db.query`DELETE FROM user_fish WHERE user_id = ${user_id} AND fish_id = ${fish_id}`;
+  async unlink(id: number): Promise<void> {
+    await this.db.query`DELETE FROM user_fish WHERE id = ${id}`;
   }
 }

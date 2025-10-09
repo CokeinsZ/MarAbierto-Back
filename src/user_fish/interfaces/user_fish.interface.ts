@@ -19,5 +19,5 @@ export interface UserFishServiceInterface {
     getUserFishes(user_id: number): Promise<UserFish[]>;
     getUserFish(user_id: number, fish_id: number): Promise<UserFish>;
     updateUserFish(user_id: number, fish_id: number, dto: UpdateUserFishDto): Promise<UserFish>;
-    unlinkUserFish(user_id: number, fish_id: number): Promise<void>;
+    unlinkUserFish(id: number, req: any): Promise<void>;
 }

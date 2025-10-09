@@ -3,6 +3,7 @@ import { UserFishService } from './user_fish.service';
 import { LinkUserFishDto, UpdateUserFishDto } from './dtos/user_fish.dto';
 import { CheckPolicies } from 'src/tools/decorators/check-policies.decorator';
 import { Action } from 'src/tools/abilities/ability.factory';
+import { Public } from 'src/tools/decorators/public.decorator';
 
 @Controller('user-fish')
 export class UserFishController {
@@ -21,13 +22,15 @@ export class UserFishController {
 	}
 
 	// Get all fishes for a user
-	@Get(':user_id')
+	@Public()
+	@Get('user/:user_id')
 	getAll(@Param('user_id', ParseIntPipe) user_id: number) {
 		return this.service.getUserFishes(user_id);
 	}
 
 	// Get specific fish for a user
-	@Get(':user_id/fish/:fish_id')
+	@Public()
+	@Get('user/:user_id/fish/:fish_id')
 	@CheckPolicies({ action: Action.Read, subject: 'UserFish' })
 	getOne(
 		@Param('user_id', ParseIntPipe) user_id: number,
@@ -55,19 +58,12 @@ export class UserFishController {
 	}
 
 	// Delete link
-	@Delete(':user_id/fish/:fish_id')
+	@Delete(':id')
 	@CheckPolicies({ action: Action.Delete, subject: 'UserFish' })
 	unlink(
-		@Param('user_id', ParseIntPipe) user_id: number,
-		@Param('fish_id', ParseIntPipe) fish_id: number,
+		@Param('id', ParseIntPipe) id: number,
 		@Request() req
 	) {
-		// Check user specific permission condition
-        if (req.user.role != 'admin' && req.user.id != user_id) {
-            // If the user is not an admin and is trying to access another user's account
-            throw new ForbiddenException('You do not have permission to access this resource');
-        }
-
-		return this.service.unlinkUserFish(user_id, fish_id);
+		return this.service.unlinkUserFish(id, req);
 	}
 }

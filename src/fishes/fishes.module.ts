@@ -11,6 +11,7 @@ import { DatabaseModule } from 'src/databases/database.module';
     AbilitiesModule,
   ],
   controllers: [FishesController],
-  providers: [FishesService, FishesRepository]
+  providers: [FishesService, FishesRepository],
+  exports: [FishesService]
 })
 export class FishesModule {}
