@@ -7,6 +7,7 @@ import {
   Min,
   Max
 } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateFishDto {
     @IsNotEmpty()
@@ -98,21 +99,30 @@ export class FilterBySizeDto {
     @IsNotEmpty()
     @IsNumber()
     @Min(0)
-    minSize: number;
+    @Max(10000)
+    @Type(() => Number)
+    min_size: number;
 
     @IsNotEmpty()
     @IsNumber()
     @Min(0)
     @Max(10000)
-    maxSize: number;
+    @Type(() => Number)
+    max_size: number;
 }
 
 export class FilterByWeightDto {
     @IsNotEmpty()
     @IsNumber()
-    minWeight: number;
+    @Min(0)
+    @Max(10000)
+    @Type(() => Number)
+    min_weight: number;
 
     @IsNotEmpty()
     @IsNumber()
-    maxWeight: number;
+    @Min(0)
+    @Max(10000)
+    @Type(() => Number)
+    max_weight: number;
 }

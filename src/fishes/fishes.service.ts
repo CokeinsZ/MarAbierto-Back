@@ -61,12 +61,12 @@ export class FishesService implements FishServiceInterface {
   }
 
   async filterBySize(dto: FilterBySizeDto): Promise<Fish[]> {
-    const fishes = await this.fishesRepository.filterBySize(dto.minSize, dto.maxSize);
+    const fishes = await this.fishesRepository.filterBySize(dto.min_size, dto.max_size);
     return fishes.map(f => this.toFishInterface(f));
   }
 
   async filterByWeight(dto: FilterByWeightDto): Promise<Fish[]> {
-    const fishes = await this.fishesRepository.filterByWeight(dto.minWeight, dto.maxWeight);
+    const fishes = await this.fishesRepository.filterByWeight(dto.min_weight, dto.max_weight);
     return fishes.map(f => this.toFishInterface(f));
   }
 
@@ -86,6 +86,7 @@ export class FishesService implements FishServiceInterface {
 
   private toFishInterface(fish: any): Fish {
     return {
+      fish_id: fish.fish_id,
       common_name: fish.common_name,
       scientific_name: fish.scientific_name,
       habitat: fish.habitat,

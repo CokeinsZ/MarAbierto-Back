@@ -9,6 +9,7 @@ import {
 } from "../dtos/fish.dto";
 
 export interface Fish {
+    fish_id?: number;
     common_name: string;
     scientific_name?: string;
     habitat: string;

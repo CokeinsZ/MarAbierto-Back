@@ -77,24 +77,6 @@ export class UsersRepository {
         return rows[0];
     }
 
-    async updateFailedAttempts(id: number, attempts: number): Promise<User> {
-        const rows = await this.db.query<User>`
-            UPDATE users
-            SET failed_login_attempts = ${attempts}, updated_at = NOW()
-            WHERE user_id = ${id}
-            RETURNING *`;
-        return rows[0];
-    }
-
-    async resetFailedAttempts(id: number): Promise<User> {
-        const rows = await this.db.query<User>`
-            UPDATE users
-            SET failed_login_attempts = 0, updated_at = NOW()
-            WHERE user_id = ${id}
-            RETURNING *`;
-        return rows[0];
-    }
-
     async deleteUser(id: number): Promise<void> {
         await this.db.query`DELETE FROM users WHERE user_id = ${id}`;
     }

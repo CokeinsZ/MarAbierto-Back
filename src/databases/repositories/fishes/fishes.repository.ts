@@ -24,7 +24,7 @@ export class FishesRepository {
   }
 
   async findByName(common_name: string): Promise<Fish[]> {
-    return this.db.query<Fish>`SELECT * FROM fishes WHERE common_name ILIKE '%' || ${common_name} || '%'`;
+    return this.db.query<Fish>`SELECT * FROM fishes WHERE unaccent(common_name) ILIKE '%' || unaccent(${common_name}) || '%'`;
   }
 
   async filterByFishingSite(site: string): Promise<Fish[]> {
@@ -32,15 +32,15 @@ export class FishesRepository {
       SELECT f.* FROM fishes f
       JOIN site_fish sf ON sf.fish_id = f.fish_id
       JOIN fishingsites fs ON fs.site_id = sf.site_id
-      WHERE fs.name ILIKE '%' || ${site} || '%'`;
+      WHERE unaccent(fs.name) ILIKE '%' || unaccent(${site}) || '%'`;
   }
 
   async filterByHabitat(habitat: string): Promise<Fish[]> {
-    return this.db.query<Fish>`SELECT * FROM fishes WHERE habitat ILIKE '%' || ${habitat} || '%'`;
+    return this.db.query<Fish>`SELECT * FROM fishes WHERE unaccent(habitat) ILIKE '%' || unaccent(${habitat}) || '%'`;
   }
 
   async filterByDiet(diet: string): Promise<Fish[]> {
-    return this.db.query<Fish>`SELECT * FROM fishes WHERE diet ILIKE '%' || ${diet} || '%'`;
+    return this.db.query<Fish>`SELECT * FROM fishes WHERE unaccent(diet) ILIKE '%' || unaccent(${diet}) || '%'`;
   }
 
   async filterBySize(min: number, max: number): Promise<Fish[]> {
@@ -68,8 +68,6 @@ export class FishesRepository {
       setClauses.push(`${k} = $${idx + 1}`);
       values.push((fish as any)[k]);
     });
-    // updated_at at end
-    setClauses.push(`updated_at = NOW()`);
     // WHERE param position is next
     const whereIndex = values.length + 1;
     const sql = `UPDATE fishes SET ${setClauses.join(', ')} WHERE fish_id = $${whereIndex} RETURNING *`;
