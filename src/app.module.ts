@@ -12,6 +12,7 @@ import { JwtStrategy } from './tools/strategies/jwt.strategy';
 import { MailModule } from './mails/mails.module';
 import { FishesModule } from './fishes/fishes.module';
 import { UserFishModule } from './user_fish/user_fish.module';
+import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UserFishModule } from './user_fish/user_fish.module';
     MailModule,
     FishesModule,
     UserFishModule,
+    FishingSitesModule,
   ],
   controllers: [],
   providers: [
