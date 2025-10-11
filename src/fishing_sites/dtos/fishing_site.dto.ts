@@ -25,18 +25,18 @@ export class CreateFishingSiteDto {
 }
 
 export class FindAllDto {
-  @IsOptional()
+  @IsNotEmpty()
   @Type(() => Number)
   @IsNumber()
   @Min(1)
   @Max(100)
-  max?: number = 10;
+  max: number = 10;
 
-  @IsOptional()
+  @IsNotEmpty()
   @Type(() => Number)
   @IsNumber()
   @Min(0)
-  page?: number = 0;
+  page: number = 0;
 }
 
 export class FindByNameDto {

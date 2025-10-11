@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { FishingSitesService } from './fishing_sites.service';
 import { Public } from 'src/tools/decorators/public.decorator';
 import { CreateFishingSiteDto, FilterByAddressDto, FindAllDto, FindByNameDto } from './dtos/fishing_site.dto';
@@ -9,6 +9,7 @@ import { Action } from 'src/tools/abilities/ability.factory';
 export class FishingSitesController {
     constructor(private readonly fishingSitesService: FishingSitesService) { }
 
+    @Post()
     @CheckPolicies({ action: Action.Create, subject: 'FishingSite' })
     create(@Body() dto: CreateFishingSiteDto) {
         return this.fishingSitesService.create(dto);
@@ -28,24 +29,24 @@ export class FishingSitesController {
 
     @Public()
     @Get('filter/name')
-    findByName(@Query('name') dto: FindByNameDto) {
+    findByName(@Query() dto: FindByNameDto) {
         return this.fishingSitesService.findByName(dto.name);
     }
 
     @Public()
     @Get('filter/address')
-    filterByAddress(@Query('address') dto: FilterByAddressDto) {
+    filterByAddress(@Query() dto: FilterByAddressDto) {
         return this.fishingSitesService.filterByAddress(dto.address);
     }
 
     @CheckPolicies({ action: Action.Update, subject: 'FishingSite' })
-    @Get('update/:id')
+    @Patch(':id')
     update(@Param('id') id: number, @Body() dto: CreateFishingSiteDto) {
         return this.fishingSitesService.update(id, dto);
     }
 
     @CheckPolicies({ action: Action.Delete, subject: 'FishingSite' })
-    @Get('delete/:id')
+    @Delete(':id')
     remove(@Param('id') id: number) {
         return this.fishingSitesService.remove(id);
     }

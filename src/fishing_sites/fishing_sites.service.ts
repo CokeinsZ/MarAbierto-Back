@@ -21,7 +21,7 @@ export class FishingSitesService implements FishingSitesServiceInterface {
     }
     
     async findAll(dto: FindAllDto): Promise<FishingSite[]> {
-        const sites = await this.fishingSitesRepository.findAll(dto.max, dto.page);
+        const sites = await this.fishingSitesRepository.findAll(dto.max, dto.page - 1);
         return sites.map(this.toFishingSiteInterface);
     }
     
