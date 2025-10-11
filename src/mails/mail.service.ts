@@ -1,6 +1,9 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { MailServiceInterface, SendEmailOptions } from './interfaces/mail.interface';
+import {
+  MailServiceInterface,
+  SendEmailOptions,
+} from './interfaces/mail.interface';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -14,7 +17,8 @@ export class MailService implements MailServiceInterface {
     private readonly config: ConfigService,
   ) {
     this.appName = this.config.get<string>('APP_NAME') || 'MarAbierto';
-    this.appUrl = this.config.get<string>('APP_URL') || 'https://mar-abierto.online';
+    this.appUrl =
+      this.config.get<string>('APP_URL') || 'https://mar-abierto.online';
   }
 
   async sendMail(options: SendEmailOptions): Promise<void> {
@@ -26,14 +30,20 @@ export class MailService implements MailServiceInterface {
         context: options.context,
         attachments: options.attachments,
       });
-      this.logger.log(`Email sent to ${options.to} subject="${options.subject}"`);
+      this.logger.log(
+        `Email sent to ${options.to} subject="${options.subject}"`,
+      );
     } catch (error) {
       this.logger.error('Failed to send email', error as any);
       throw error;
     }
   }
 
-  async sendVerificationEmail(to: string, name: string, code: string): Promise<void> {
+  async sendVerificationEmail(
+    to: string,
+    name: string,
+    code: string,
+  ): Promise<void> {
     const cleanName = this.sanitizePlainText(name);
     const subject = 'Verificación de cuenta';
 

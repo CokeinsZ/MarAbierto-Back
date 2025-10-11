@@ -1,7 +1,15 @@
-import { CanActivate, ExecutionContext, Injectable, ForbiddenException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AbilityFactory } from '../abilities/ability.factory';
-import { CHECK_POLICIES_KEY, PolicyHandler } from '../decorators/check-policies.decorator';
+import {
+  CHECK_POLICIES_KEY,
+  PolicyHandler,
+} from '../decorators/check-policies.decorator';
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
 
 @Injectable()
@@ -22,10 +30,11 @@ export class PoliciesGuard implements CanActivate {
       return true;
     }
 
-    const policyHandlers = this.reflector.get<PolicyHandler[]>(
-      CHECK_POLICIES_KEY,
-      context.getHandler(),
-    ) || [];
+    const policyHandlers =
+      this.reflector.get<PolicyHandler[]>(
+        CHECK_POLICIES_KEY,
+        context.getHandler(),
+      ) || [];
 
     // No policy handlers means no special permission checks needed beyond authentication
     if (policyHandlers.length === 0) {
@@ -41,7 +50,7 @@ export class PoliciesGuard implements CanActivate {
     }
 
     // Check all policies
-    return policyHandlers.every(handler => {
+    return policyHandlers.every((handler) => {
       return this.abilityFactory.can(
         user.role,
         handler.action,

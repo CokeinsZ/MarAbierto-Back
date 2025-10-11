@@ -15,7 +15,11 @@ export class SecurityCodesRepository {
   /**
    * Crea o reemplaza el código de seguridad para un usuario (upsert). expiration time por defecto 10 minutos.
    */
-  async create(userId: number, code: string, expirationTime = 10): Promise<SecurityCode> {
+  async create(
+    userId: number,
+    code: string,
+    expirationTime = 10,
+  ): Promise<SecurityCode> {
     const rows = await this.db.query<SecurityCode>`
       INSERT INTO securitycodes (user_id, code, expires_at)
       VALUES (${userId}, ${code}, NOW() + (${expirationTime} || ' minutes')::interval)
@@ -28,11 +32,16 @@ export class SecurityCodesRepository {
   }
 
   async find(userId: number): Promise<SecurityCode | null> {
-    const rows = await this.db.query<SecurityCode>`SELECT * FROM securitycodes WHERE user_id = ${userId}`;
+    const rows = await this.db
+      .query<SecurityCode>`SELECT * FROM securitycodes WHERE user_id = ${userId}`;
     return rows[0] || null;
   }
 
-  async update(userId: number, code: string, expirationTime = 10): Promise<SecurityCode> {
+  async update(
+    userId: number,
+    code: string,
+    expirationTime = 10,
+  ): Promise<SecurityCode> {
     // reutiliza create
     return this.create(userId, code, expirationTime);
   }

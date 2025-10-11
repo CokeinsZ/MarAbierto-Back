@@ -11,6 +11,6 @@ import { UserFishRepository } from '../databases/repositories/user_fish/user_fis
   imports: [DatabaseModule, AbilitiesModule, FishesModule, UserModule],
   controllers: [UserFishController],
   providers: [UserFishService, UserFishRepository],
-  exports: [UserFishService]
+  exports: [UserFishService],
 })
 export class UserFishModule {}

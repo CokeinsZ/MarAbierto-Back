@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { user_role } from 'src/users/interfaces/user.interface'; 
+import { user_role } from 'src/users/interfaces/user.interface';
 
 // Define possible actions
 export enum Action {
   Manage = 'manage',
   Create = 'create',
-  Read =   'read',
+  Read = 'read',
   Update = 'update',
   Delete = 'delete',
 }
@@ -122,13 +122,13 @@ export class AbilityFactory {
       action: Action.Update,
       subject: 'User',
     });
-    
+
     // Allow users to manage their own User-Fish relations
     rules.push({ action: Action.Read, subject: 'UserFish' });
     rules.push({ action: Action.Create, subject: 'UserFish' });
     rules.push({ action: Action.Update, subject: 'UserFish' });
     rules.push({ action: Action.Delete, subject: 'UserFish' });
-    
+
     return { rules };
   }
 
@@ -148,7 +148,7 @@ export class AbilityFactory {
         rule.action === Action.Manage &&
         (rule.subject === 'all' || rule.subject === subject),
     );
-    
+
     if (manageRule) {
       return true;
     }
@@ -163,10 +163,8 @@ export class AbilityFactory {
     // No rules = no permission
     if (rules.length === 0) {
       return false;
-    
     } else {
       return true;
-    
     }
   }
 }

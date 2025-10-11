@@ -40,7 +40,7 @@ import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
       useClass: RolesGuard,
     },
     JwtStrategy,
-    DatabaseService
+    DatabaseService,
   ],
 })
 export class AppModule {}

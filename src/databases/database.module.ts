@@ -7,13 +7,21 @@ import { FishesRepository } from './repositories/fishes/fishes.repository';
 import { FishingSitesRepository } from './repositories/fishing_sites/fishing_sites.repository';
 
 @Module({
-    providers: [
-        DatabaseService, 
-        UsersRepository, SecurityCodesRepository, FishesRepository, UserFishRepository, FishingSitesRepository
-    ],
-    exports: [
-        DatabaseService, 
-        UsersRepository, SecurityCodesRepository, FishesRepository, UserFishRepository, FishingSitesRepository
-    ],
+  providers: [
+    DatabaseService,
+    UsersRepository,
+    SecurityCodesRepository,
+    FishesRepository,
+    UserFishRepository,
+    FishingSitesRepository,
+  ],
+  exports: [
+    DatabaseService,
+    UsersRepository,
+    SecurityCodesRepository,
+    FishesRepository,
+    UserFishRepository,
+    FishingSitesRepository,
+  ],
 })
 export class DatabaseModule {}

@@ -1,6 +1,27 @@
-import { Body, Controller, Get, Param, Post, Patch, Delete, HttpCode, HttpStatus, UseGuards, Request, ForbiddenException } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Patch,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  UseGuards,
+  Request,
+  ForbiddenException,
+} from '@nestjs/common';
 import { UsersService } from './user.service';
-import { CreateUserDto, UpdateUserDto, LoginDto, VerifyEmailDto, ChangePasswordDto, UpdateUserStatusDto, UpdateUserRoleDto } from './dtos/user.dto';
+import {
+  CreateUserDto,
+  UpdateUserDto,
+  LoginDto,
+  VerifyEmailDto,
+  ChangePasswordDto,
+  UpdateUserStatusDto,
+  UpdateUserRoleDto,
+} from './dtos/user.dto';
 import { Public } from 'src/tools/decorators/public.decorator';
 import { RolesGuard } from 'src/tools/guards/roles.guard';
 import { Roles } from 'src/tools/decorators/roles.decorator';
@@ -10,13 +31,17 @@ import { user_role, user_status } from './interfaces/user.interface';
 
 @Controller('users')
 export class UserController {
-	constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Public()
   @Post('signup')
   async create(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
-    return { message: 'User registered successfully. Please check your email for verification code.', user };
+    return {
+      message:
+        'User registered successfully. Please check your email for verification code.',
+      user,
+    };
   }
 
   @Public()
@@ -55,11 +80,12 @@ export class UserController {
   @Get(':id')
   @CheckPolicies({ action: Action.Read, subject: 'User' })
   findOne(@Param('id') id: number, @Request() req) {
-
     //Check user specific permission condition
     if (req.user.role === 'user' && req.user.id != id) {
       // If the user is not an admin and is trying to access another user's account
-      throw new ForbiddenException('You do not have permission to access this resource');
+      throw new ForbiddenException(
+        'You do not have permission to access this resource',
+      );
     }
 
     return this.usersService.findOne(id);
@@ -68,7 +94,6 @@ export class UserController {
   @Get('email/:email')
   @Public()
   findByEmail(@Param('email') email: string) {
-
     // 1) Quitamos comillas simples o dobles al inicio/final
     // 2) Luego lowercase, espacio y trim
     const normaliced_email = email
@@ -82,12 +107,17 @@ export class UserController {
 
   @Patch(':id')
   @CheckPolicies({ action: Action.Update, subject: 'User' })
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto, @Request() req) {
-
+  update(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req,
+  ) {
     //Check user specific permission condition
     if (req.user.role === 'user' && req.user.id != id) {
       // If the user is not an admin and is trying to access another user's account
-      throw new ForbiddenException('You do not have permission to access this resource');
+      throw new ForbiddenException(
+        'You do not have permission to access this resource',
+      );
     }
 
     return this.usersService.update(id, updateUserDto);
@@ -99,7 +129,6 @@ export class UserController {
     @Param('id') id: number,
     @Body() updateUserStatusDto: UpdateUserStatusDto,
   ) {
-
     return this.usersService.updateStatus(id, updateUserStatusDto);
   }
 
@@ -109,7 +138,6 @@ export class UserController {
     @Param('id') id: number,
     @Body() updateUserRoleDto: UpdateUserRoleDto,
   ) {
-
     return this.usersService.updateRole(id, updateUserRoleDto);
   }
 

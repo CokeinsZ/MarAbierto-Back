@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, ForbiddenException, Get, Param, ParseIntPipe, Post, Put, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  ForbiddenException,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+  Request,
+} from '@nestjs/common';
 import { UserFishService } from './user_fish.service';
 import { LinkUserFishDto, UpdateUserFishDto } from './dtos/user_fish.dto';
 import { CheckPolicies } from 'src/tools/decorators/check-policies.decorator';
@@ -7,63 +18,64 @@ import { Public } from 'src/tools/decorators/public.decorator';
 
 @Controller('user-fish')
 export class UserFishController {
-	constructor(private readonly service: UserFishService) {}
+  constructor(private readonly service: UserFishService) {}
 
-	@Post()
-	@CheckPolicies({ action: Action.Create, subject: 'UserFish' })
-	link(@Body() dto: LinkUserFishDto, @Request() req) {
-		//Check user specific permission condition
-        if (req.user.role != 'admin' && req.user.id != dto.user_id) {
-            // If the user is not an admin and is trying to access another user's account
-            throw new ForbiddenException('You do not have permission to access this resource');
-        }
-        
-        return this.service.linkUserFish(dto);
-	}
+  @Post()
+  @CheckPolicies({ action: Action.Create, subject: 'UserFish' })
+  link(@Body() dto: LinkUserFishDto, @Request() req) {
+    //Check user specific permission condition
+    if (req.user.role != 'admin' && req.user.id != dto.user_id) {
+      // If the user is not an admin and is trying to access another user's account
+      throw new ForbiddenException(
+        'You do not have permission to access this resource',
+      );
+    }
 
-	// Get all fishes for a user
-	@Public()
-	@Get('user/:user_id')
-	getAll(@Param('user_id', ParseIntPipe) user_id: number) {
-		return this.service.getUserFishes(user_id);
-	}
+    return this.service.linkUserFish(dto);
+  }
 
-	// Get specific fish for a user
-	@Public()
-	@Get('user/:user_id/fish/:fish_id')
-	@CheckPolicies({ action: Action.Read, subject: 'UserFish' })
-	getOne(
-		@Param('user_id', ParseIntPipe) user_id: number,
-		@Param('fish_id', ParseIntPipe) fish_id: number,
-	) {
-		return this.service.getUserFish(user_id, fish_id);
-	}
+  // Get all fishes for a user
+  @Public()
+  @Get('user/:user_id')
+  getAll(@Param('user_id', ParseIntPipe) user_id: number) {
+    return this.service.getUserFishes(user_id);
+  }
 
-	// Update link
-	@Put(':user_id/fish/:fish_id')
-	@CheckPolicies({ action: Action.Update, subject: 'UserFish' })
-	update(
-		@Param('user_id', ParseIntPipe) user_id: number,
-		@Param('fish_id', ParseIntPipe) fish_id: number,
-		@Body() dto: UpdateUserFishDto,
-		@Request() req
-	) {
-		// Check user specific permission condition
-        if (req.user.role != 'admin' && req.user.id != user_id) {
-            // If the user is not an admin and is trying to access another user's account
-            throw new ForbiddenException('You do not have permission to access this resource');
-        }
+  // Get specific fish for a user
+  @Public()
+  @Get('user/:user_id/fish/:fish_id')
+  @CheckPolicies({ action: Action.Read, subject: 'UserFish' })
+  getOne(
+    @Param('user_id', ParseIntPipe) user_id: number,
+    @Param('fish_id', ParseIntPipe) fish_id: number,
+  ) {
+    return this.service.getUserFish(user_id, fish_id);
+  }
 
-		return this.service.updateUserFish(user_id, fish_id, dto);
-	}
+  // Update link
+  @Put(':user_id/fish/:fish_id')
+  @CheckPolicies({ action: Action.Update, subject: 'UserFish' })
+  update(
+    @Param('user_id', ParseIntPipe) user_id: number,
+    @Param('fish_id', ParseIntPipe) fish_id: number,
+    @Body() dto: UpdateUserFishDto,
+    @Request() req,
+  ) {
+    // Check user specific permission condition
+    if (req.user.role != 'admin' && req.user.id != user_id) {
+      // If the user is not an admin and is trying to access another user's account
+      throw new ForbiddenException(
+        'You do not have permission to access this resource',
+      );
+    }
 
-	// Delete link
-	@Delete(':id')
-	@CheckPolicies({ action: Action.Delete, subject: 'UserFish' })
-	unlink(
-		@Param('id', ParseIntPipe) id: number,
-		@Request() req
-	) {
-		return this.service.unlinkUserFish(id, req);
-	}
+    return this.service.updateUserFish(user_id, fish_id, dto);
+  }
+
+  // Delete link
+  @Delete(':id')
+  @CheckPolicies({ action: Action.Delete, subject: 'UserFish' })
+  unlink(@Param('id', ParseIntPipe) id: number, @Request() req) {
+    return this.service.unlinkUserFish(id, req);
+  }
 }

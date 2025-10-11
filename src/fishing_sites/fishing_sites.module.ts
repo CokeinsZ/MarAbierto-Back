@@ -6,12 +6,9 @@ import { AbilitiesModule } from 'src/tools/abilities/abilities.module';
 import { FishingSitesRepository } from 'src/databases/repositories/fishing_sites/fishing_sites.repository';
 
 @Module({
-  imports: [
-      DatabaseModule,
-      AbilitiesModule,
-    ],
+  imports: [DatabaseModule, AbilitiesModule],
   controllers: [FishingSitesController],
-  providers: [FishingSitesService, FishingSitesRepository ],
-  exports: [FishingSitesService]
+  providers: [FishingSitesService, FishingSitesRepository],
+  exports: [FishingSitesService],
 })
 export class FishingSitesModule {}

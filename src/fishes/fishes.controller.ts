@@ -12,13 +12,21 @@ import {
 import { FishesService } from './fishes.service';
 import { Public } from 'src/tools/decorators/public.decorator';
 import { Roles } from 'src/tools/decorators/roles.decorator';
-import { CreateFishDto, UpdateFishDto, FilterByDietDto, FilterByFishingSiteDto, FilterByHabitatDto, FilterBySizeDto, FilterByWeightDto } from './dtos/fish.dto';
+import {
+  CreateFishDto,
+  UpdateFishDto,
+  FilterByDietDto,
+  FilterByFishingSiteDto,
+  FilterByHabitatDto,
+  FilterBySizeDto,
+  FilterByWeightDto,
+} from './dtos/fish.dto';
 import { CheckPolicies } from 'src/tools/decorators/check-policies.decorator';
 import { Action } from 'src/tools/abilities/ability.factory';
 
 @Controller('fishes')
 export class FishesController {
-  constructor(private readonly fishesService: FishesService) { }
+  constructor(private readonly fishesService: FishesService) {}
 
   // PUBLIC READ ENDPOINTS
   @Public()

@@ -15,7 +15,8 @@ export class UserFishRepository {
   }
 
   async findAllByUser(user_id: number): Promise<UserFish[]> {
-    return this.db.query<UserFish>`SELECT * FROM user_fish WHERE user_id = ${user_id}`;
+    return this.db
+      .query<UserFish>`SELECT * FROM user_fish WHERE user_id = ${user_id}`;
   }
 
   async findOneById(id: number): Promise<UserFish | null> {
@@ -24,16 +25,27 @@ export class UserFishRepository {
     return rows[0] || null;
   }
 
-  async findByUserIdAndFishId(user_id: number, fish_id: number): Promise<UserFish | null> {
+  async findByUserIdAndFishId(
+    user_id: number,
+    fish_id: number,
+  ): Promise<UserFish | null> {
     const rows = await this.db.query<UserFish>`
       SELECT * FROM user_fish WHERE user_id = ${user_id} AND fish_id = ${fish_id}`;
     return rows[0] || null;
   }
 
-  async update(user_id: number, fish_id: number, data: Partial<UserFish>): Promise<UserFish> {
-    const keys = Object.keys(data).filter((k) => !['user_id', 'fish_id'].includes(k));
+  async update(
+    user_id: number,
+    fish_id: number,
+    data: Partial<UserFish>,
+  ): Promise<UserFish> {
+    const keys = Object.keys(data).filter(
+      (k) => !['user_id', 'fish_id'].includes(k),
+    );
     if (keys.length === 0) {
-      throw new BadRequestException("No fields to update. (You can't update user_id or fish_id)");
+      throw new BadRequestException(
+        "No fields to update. (You can't update user_id or fish_id)",
+      );
     }
     const setClauses: string[] = [];
     const values: any[] = [];

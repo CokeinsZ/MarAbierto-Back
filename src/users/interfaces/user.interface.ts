@@ -17,7 +17,7 @@ export enum user_status {
 
 export enum user_role {
   ADMIN = 'admin',
-  USER = 'user'
+  USER = 'user',
 }
 
 export interface User {
@@ -42,22 +42,14 @@ export interface UserServiceInterface {
   remove(id: number): Promise<void>;
   verifyEmail(verifyEmailDto: VerifyEmailDto): Promise<{ message: string }>;
 
-  login(
-    loginDto: LoginDto,
-  ): Promise<{ message: string, userId: string }>;
+  login(loginDto: LoginDto): Promise<{ message: string; userId: string }>;
 
   changePassword(
     id: number,
     changePasswordDto: ChangePasswordDto,
   ): Promise<void>;
 
-  updateStatus(
-    id: number,
-    status: UpdateUserStatusDto,
-  ): Promise<User>;
+  updateStatus(id: number, status: UpdateUserStatusDto): Promise<User>;
 
-  updateRole(
-    id: number,
-    role: UpdateUserRoleDto,
-  ): Promise<User>;
+  updateRole(id: number, role: UpdateUserRoleDto): Promise<User>;
 }

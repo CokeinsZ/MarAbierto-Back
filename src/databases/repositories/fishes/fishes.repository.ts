@@ -4,7 +4,7 @@ import { Fish } from '../../../fishes/interfaces/fish.interface';
 
 @Injectable()
 export class FishesRepository {
-  constructor(private readonly db: DatabaseService) { }
+  constructor(private readonly db: DatabaseService) {}
 
   async createFish(fish: Partial<Fish>): Promise<Fish> {
     const rows = await this.db.query<Fish>`
@@ -19,12 +19,14 @@ export class FishesRepository {
   }
 
   async findById(id: number): Promise<Fish | null> {
-    const rows = await this.db.query<Fish>`SELECT * FROM fishes WHERE fish_id = ${id}`;
+    const rows = await this.db
+      .query<Fish>`SELECT * FROM fishes WHERE fish_id = ${id}`;
     return rows[0] || null;
   }
 
   async findByName(common_name: string): Promise<Fish[]> {
-    return this.db.query<Fish>`SELECT * FROM fishes WHERE unaccent(common_name) ILIKE '%' || unaccent(${common_name}) || '%'`;
+    return this.db
+      .query<Fish>`SELECT * FROM fishes WHERE unaccent(common_name) ILIKE '%' || unaccent(${common_name}) || '%'`;
   }
 
   async filterByFishingSite(site: string): Promise<Fish[]> {
@@ -36,11 +38,13 @@ export class FishesRepository {
   }
 
   async filterByHabitat(habitat: string): Promise<Fish[]> {
-    return this.db.query<Fish>`SELECT * FROM fishes WHERE unaccent(habitat) ILIKE '%' || unaccent(${habitat}) || '%'`;
+    return this.db
+      .query<Fish>`SELECT * FROM fishes WHERE unaccent(habitat) ILIKE '%' || unaccent(${habitat}) || '%'`;
   }
 
   async filterByDiet(diet: string): Promise<Fish[]> {
-    return this.db.query<Fish>`SELECT * FROM fishes WHERE unaccent(diet) ILIKE '%' || unaccent(${diet}) || '%'`;
+    return this.db
+      .query<Fish>`SELECT * FROM fishes WHERE unaccent(diet) ILIKE '%' || unaccent(${diet}) || '%'`;
   }
 
   async filterBySize(min: number, max: number): Promise<Fish[]> {
@@ -58,9 +62,11 @@ export class FishesRepository {
   }
 
   async updateFish(id: number, fish: Partial<Fish>): Promise<Fish> {
-    const keys = Object.keys(fish).filter(k => k !== 'fish_id');
+    const keys = Object.keys(fish).filter((k) => k !== 'fish_id');
     if (keys.length === 0) {
-      throw new BadRequestException('No fields to update. (You can\'t update the id)');
+      throw new BadRequestException(
+        "No fields to update. (You can't update the id)",
+      );
     }
     const setClauses: string[] = [];
     const values: any[] = [];

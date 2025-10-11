@@ -6,12 +6,9 @@ import { AbilitiesModule } from 'src/tools/abilities/abilities.module';
 import { DatabaseModule } from 'src/databases/database.module';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    AbilitiesModule,
-  ],
+  imports: [DatabaseModule, AbilitiesModule],
   controllers: [FishesController],
   providers: [FishesService, FishesRepository],
-  exports: [FishesService]
+  exports: [FishesService],
 })
 export class FishesModule {}

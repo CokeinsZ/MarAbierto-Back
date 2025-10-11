@@ -6,13 +6,15 @@ import {
   IsOptional,
   IsEnum,
   MaxLength,
-  IsNumber
+  IsNumber,
 } from 'class-validator';
 import { user_role, user_status } from '../interfaces/user.interface';
 
 export class CreateUserDto {
   @IsOptional()
-  @IsEnum(user_role, { message: 'role must be one of the following: user, admin' })
+  @IsEnum(user_role, {
+    message: 'role must be one of the following: user, admin',
+  })
   role?: user_role = user_role.USER;
 
   @IsNotEmpty()
@@ -49,9 +51,11 @@ export class CreateUserDto {
   address?: string;
 
   @IsOptional()
-  @IsEnum(user_status, { message: 'status must be one of the following: not_verified, active, inactive, banned' })
+  @IsEnum(user_status, {
+    message:
+      'status must be one of the following: not_verified, active, inactive, banned',
+  })
   status?: user_status = user_status.NOT_VERIFIED;
-
 }
 
 export class UpdateUserDto {
@@ -89,19 +93,27 @@ export class UpdateUserDto {
   address?: string;
 
   @IsOptional()
-  @IsEnum(user_status, { message: 'status must be one of the following: not_verified, active, inactive, banned' })
+  @IsEnum(user_status, {
+    message:
+      'status must be one of the following: not_verified, active, inactive, banned',
+  })
   status?: user_status = user_status.NOT_VERIFIED;
 }
 
 export class UpdateUserStatusDto {
   @IsNotEmpty()
-  @IsEnum(user_status, { message: 'status must be one of the following: not_verified, active, inactive, banned' })
+  @IsEnum(user_status, {
+    message:
+      'status must be one of the following: not_verified, active, inactive, banned',
+  })
   status: user_status;
 }
 
 export class UpdateUserRoleDto {
   @IsNotEmpty()
-  @IsEnum(user_role, { message: 'role must be one of the following: user, admin' })
+  @IsEnum(user_role, {
+    message: 'role must be one of the following: user, admin',
+  })
   role: user_role;
 }
 
