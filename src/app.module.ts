@@ -14,6 +14,8 @@ import { FishesModule } from './fishes/fishes.module';
 import { UserFishModule } from './user_fish/user_fish.module';
 import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
 import { SiteFishModule } from './site_fish/site_fish.module';
+import { ProductsModule } from './products/products.module';
+import { PcategoriesModule } from './pcategories/pcategories.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { SiteFishModule } from './site_fish/site_fish.module';
     UserFishModule,
     FishingSitesModule,
     SiteFishModule,
+    ProductsModule,
+    PcategoriesModule,
   ],
   controllers: [],
   providers: [

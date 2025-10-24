@@ -5,6 +5,8 @@ import { SecurityCodesRepository } from './repositories/users/security_codes.rep
 import { UserFishRepository } from './repositories/user_fish/user_fish.repository';
 import { FishesRepository } from './repositories/fishes/fishes.repository';
 import { FishingSitesRepository } from './repositories/fishing_sites/fishing_sites.repository';
+import { SiteFishRepository } from './repositories/site_fish/site_fish.repository';
+import { ProductsRepository } from './repositories/products/products.repository';
 
 @Module({
   providers: [
@@ -14,6 +16,8 @@ import { FishingSitesRepository } from './repositories/fishing_sites/fishing_sit
     FishesRepository,
     UserFishRepository,
     FishingSitesRepository,
+    SiteFishRepository,
+    ProductsRepository
   ],
   exports: [
     DatabaseService,
@@ -22,6 +26,8 @@ import { FishingSitesRepository } from './repositories/fishing_sites/fishing_sit
     FishesRepository,
     UserFishRepository,
     FishingSitesRepository,
+    SiteFishRepository,
+    ProductsRepository
   ],
 })
 export class DatabaseModule {}

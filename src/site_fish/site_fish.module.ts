@@ -6,12 +6,9 @@ import { AbilitiesModule } from 'src/tools/abilities/abilities.module';
 import { SiteFishRepository } from 'src/databases/repositories/site_fish/site_fish.repository';
 
 @Module({
-  imports: [
-    DatabaseModule,
-    AbilitiesModule,
-  ],
+  imports: [DatabaseModule, AbilitiesModule],
   controllers: [SiteFishController],
   providers: [SiteFishService, SiteFishRepository],
-  exports: [SiteFishService]
+  exports: [SiteFishService],
 })
 export class SiteFishModule {}

@@ -43,7 +43,7 @@ export class FishingSitesService implements FishingSitesServiceInterface {
   async findAll(dto: FindAllDto): Promise<FishingSite[]> {
     const sites = await this.fishingSitesRepository.findAll(
       dto.max,
-      dto.page - 1,
+      (dto.page - 1) * dto.max,
     );
     return sites.map(this.toFishingSiteInterface);
   }

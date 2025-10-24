@@ -149,9 +149,7 @@ export class UsersService implements UserServiceInterface {
     return { message: 'Verification code resent successfully' };
   }
 
-  async login(
-    loginDto: LoginDto,
-  ): Promise<{
+  async login(loginDto: LoginDto): Promise<{
     message: string;
     userId: string;
     email: string;
