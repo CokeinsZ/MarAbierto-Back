@@ -7,6 +7,7 @@ import { FishesRepository } from './repositories/fishes/fishes.repository';
 import { FishingSitesRepository } from './repositories/fishing_sites/fishing_sites.repository';
 import { SiteFishRepository } from './repositories/site_fish/site_fish.repository';
 import { ProductsRepository } from './repositories/products/products.repository';
+import { PCategoriesRepository } from './repositories/pcategories/pcategories.repository';
 
 @Module({
   providers: [
@@ -17,7 +18,8 @@ import { ProductsRepository } from './repositories/products/products.repository'
     UserFishRepository,
     FishingSitesRepository,
     SiteFishRepository,
-    ProductsRepository
+    ProductsRepository,
+    PCategoriesRepository,
   ],
   exports: [
     DatabaseService,
@@ -27,7 +29,8 @@ import { ProductsRepository } from './repositories/products/products.repository'
     UserFishRepository,
     FishingSitesRepository,
     SiteFishRepository,
-    ProductsRepository
+    ProductsRepository,
+    PCategoriesRepository,
   ],
 })
 export class DatabaseModule {}

@@ -16,6 +16,7 @@ import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
 import { SiteFishModule } from './site_fish/site_fish.module';
 import { ProductsModule } from './products/products.module';
 import { PcategoriesModule } from './pcategories/pcategories.module';
+import { PcategoriesModule } from './pcategories/pcategories.module';
 
 @Module({
   imports: [
