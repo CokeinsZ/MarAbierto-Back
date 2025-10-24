@@ -13,6 +13,7 @@ import { MailModule } from './mails/mails.module';
 import { FishesModule } from './fishes/fishes.module';
 import { UserFishModule } from './user_fish/user_fish.module';
 import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
+import { SiteFishModule } from './site_fish/site_fish.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
     FishesModule,
     UserFishModule,
     FishingSitesModule,
+    SiteFishModule,
   ],
   controllers: [],
   providers: [
