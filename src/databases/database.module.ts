@@ -8,6 +8,9 @@ import { FishingSitesRepository } from './repositories/fishing_sites/fishing_sit
 import { SiteFishRepository } from './repositories/site_fish/site_fish.repository';
 import { ProductsRepository } from './repositories/products/products.repository';
 import { PCategoriesRepository } from './repositories/pcategories/pcategories.repository';
+import { WarehouseRepository } from './repositories/warehouse/warehouse.repository';
+import { ProductPcategoryRepository } from './repositories/product_pcategory/product_pcategory.repository';
+import { WarehouseProductRepository } from './repositories/warehouse_product/warehouse_product.repository';
 
 @Module({
   providers: [
@@ -20,6 +23,9 @@ import { PCategoriesRepository } from './repositories/pcategories/pcategories.re
     SiteFishRepository,
     ProductsRepository,
     PCategoriesRepository,
+    WarehouseRepository,
+    ProductPcategoryRepository,
+    WarehouseProductRepository,
   ],
   exports: [
     DatabaseService,
@@ -31,6 +37,9 @@ import { PCategoriesRepository } from './repositories/pcategories/pcategories.re
     SiteFishRepository,
     ProductsRepository,
     PCategoriesRepository,
+    WarehouseRepository,
+    ProductPcategoryRepository,
+    WarehouseProductRepository,
   ],
 })
 export class DatabaseModule {}

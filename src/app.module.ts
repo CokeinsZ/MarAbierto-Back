@@ -15,7 +15,9 @@ import { UserFishModule } from './user_fish/user_fish.module';
 import { FishingSitesModule } from './fishing_sites/fishing_sites.module';
 import { SiteFishModule } from './site_fish/site_fish.module';
 import { ProductsModule } from './products/products.module';
-import { PcategoriesModule } from './pcategories/pcategories.module';
+import { WarehouseProductModule } from './warehouse_product/warehouse_product.module';
+import { ProductPcategoryModule } from './product_pcategory/product_pcategory.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
 import { PcategoriesModule } from './pcategories/pcategories.module';
 
 @Module({
@@ -31,6 +33,9 @@ import { PcategoriesModule } from './pcategories/pcategories.module';
     SiteFishModule,
     ProductsModule,
     PcategoriesModule,
+    WarehouseModule,
+    ProductPcategoryModule,
+    WarehouseProductModule,
   ],
   controllers: [],
   providers: [

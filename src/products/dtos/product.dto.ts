@@ -40,8 +40,8 @@ export class FindAllDto {
   @IsNotEmpty()
   @Type(() => Number)
   @IsNumber()
-  @Min(0)
-  page: number = 0;
+  @Min(1)
+  page: number = 1;
 }
 
 export class FindByNameDto {
