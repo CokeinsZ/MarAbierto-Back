@@ -31,18 +31,17 @@ export class UsersRepository {
   }
 
   async updateUser(id: number, user: Partial<User>): Promise<User> {
-    const keys = Object.keys(user).filter((k) => k !== 'user_id');
-    if (keys.length === 0) {
+    // Only include provided fields (not undefined/null) and never allow updating the PK
+    const entries = Object.entries(user).filter(
+      ([key, value]) => value !== undefined && value !== null && key !== 'user_id' && key !== 'id',
+    );
+    if (entries.length === 0) {
       throw new BadRequestException(
         "No fields to update. (You can't update the id)",
       );
     }
-    const setClauses: string[] = [];
-    const values: any[] = [];
-    keys.forEach((k, idx) => {
-      setClauses.push(`${k} = $${idx + 1}`);
-      values.push((user as any)[k]);
-    });
+    const setClauses: string[] = entries.map(([key], idx) => `${key} = $${idx + 1}`);
+    const values: any[] = entries.map(([, value]) => value as any);
     // updated_at at end
     setClauses.push(`updated_at = NOW()`);
     // WHERE param position is next

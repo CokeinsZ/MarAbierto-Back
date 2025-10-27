@@ -76,7 +76,7 @@ export class SiteFishRepository {
   async getSitesByFish(fish_id: number): Promise<FishingSite[]> {
     const rows = await this.db.query<FishingSite>`
 			SELECT fs.*
-			FROM fishing_sites fs
+			FROM fishingsites fs
 			JOIN site_fish sf ON fs.site_id = sf.site_id
 			WHERE sf.fish_id = ${fish_id}`;
     return rows;

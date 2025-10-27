@@ -39,20 +39,20 @@ export class UserFishRepository {
     fish_id: number,
     data: Partial<UserFish>,
   ): Promise<UserFish> {
-    const keys = Object.keys(data).filter(
-      (k) => !['user_id', 'fish_id'].includes(k),
+    // Only include provided fields (not undefined/null) and never allow updating composite PKs
+    const entries = Object.entries(data).filter(
+      ([key, value]) =>
+        value !== undefined &&
+        value !== null &&
+        !['user_id', 'fish_id', 'id'].includes(key),
     );
-    if (keys.length === 0) {
+    if (entries.length === 0) {
       throw new BadRequestException(
         "No fields to update. (You can't update user_id or fish_id)",
       );
     }
-    const setClauses: string[] = [];
-    const values: any[] = [];
-    keys.forEach((k, idx) => {
-      setClauses.push(`${k} = $${idx + 1}`);
-      values.push((data as any)[k]);
-    });
+    const setClauses: string[] = entries.map(([key], idx) => `${key} = $${idx + 1}`);
+    const values: any[] = entries.map(([, value]) => value as any);
     setClauses.push('updated_at = NOW()');
     const whereUserIndex = values.length + 1;
     const whereFishIndex = values.length + 2;

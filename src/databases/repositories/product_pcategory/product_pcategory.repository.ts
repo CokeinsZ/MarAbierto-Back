@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../../database.service';
 import { ProductPcategory } from '../../../product_pcategory/interfaces/product_pcategory.interface';
 import { CreateProductPcategoryDto } from 'src/product_pcategory/dtos/product_pcategory.dto';
+import { PCategory } from 'src/pcategories/interfaces/pcategory.interface';
+import { Product } from 'src/products/interfaces/product.interface';
 
 @Injectable()
 export class ProductPcategoryRepository {
@@ -17,16 +19,20 @@ export class ProductPcategoryRepository {
     return result[0];
   }
 
-  async findByProductId(id: string): Promise<ProductPcategory | null> {
-    const result = await this.db.query<ProductPcategory>`
-      SELECT * FROM product_pcategory WHERE product_id = ${id}`;
-    return result[0] || null;
+  async findByProductId(id: string): Promise<PCategory[] | null> {
+    const result = await this.db.query<PCategory>`
+      SELECT c.* FROM pcategories c
+      JOIN product_pcategory pc ON pc.pcategory_id = c.pcategory_id
+      WHERE pc.product_id = ${id}`;
+    return result || null;
   }
 
-  async findByPcategoryId(id: string): Promise<ProductPcategory | null> {
-    const result = await this.db.query<ProductPcategory>`
-      SELECT * FROM product_pcategory WHERE pcategory_id = ${id}`;
-    return result[0] || null;
+  async findByPcategoryId(id: string): Promise<Product[] | null> {
+    const result = await this.db.query<Product>`
+      SELECT p.* FROM products p
+      JOIN product_pcategory pc ON pc.product_id = p.product_id
+      WHERE pc.pcategory_id = ${id}`;
+    return result || null;
   }
 
   async delete(id: string): Promise<void> {

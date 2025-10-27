@@ -32,8 +32,8 @@ export class FindAllDto {
 }
 
 export class UpdatePCategoryDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsString()
   @MaxLength(64)
-  name?: string;
+  name: string;
 }

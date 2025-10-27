@@ -16,6 +16,7 @@ import {
   FilterByPriceRangeDto,
   FindAllDto,
   FindByNameDto,
+  UpdateProductDto,
 } from './dtos/product.dto';
 import { CheckPolicies } from 'src/tools/decorators/check-policies.decorator';
 import { Action } from 'src/tools/abilities/ability.factory';
@@ -62,7 +63,7 @@ export class ProductsController {
 
   @CheckPolicies({ action: Action.Update, subject: 'Product' })
   @Patch(':id')
-  updateProduct(@Param('id') id: number, @Body() dto: CreateProductDto) {
+  updateProduct(@Param('id') id: number, @Body() dto: UpdateProductDto) {
     return this.productsService.updateProduct(id, dto);
   }
 

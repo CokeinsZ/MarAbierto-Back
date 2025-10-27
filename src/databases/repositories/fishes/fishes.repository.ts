@@ -62,18 +62,17 @@ export class FishesRepository {
   }
 
   async updateFish(id: number, fish: Partial<Fish>): Promise<Fish> {
-    const keys = Object.keys(fish).filter((k) => k !== 'fish_id');
-    if (keys.length === 0) {
+    // Only include provided fields (not undefined/null) and never allow updating the PK
+    const entries = Object.entries(fish).filter(
+      ([key, value]) => value !== undefined && value !== null && key !== 'fish_id' && key !== 'id',
+    );
+    if (entries.length === 0) {
       throw new BadRequestException(
         "No fields to update. (You can't update the id)",
       );
     }
-    const setClauses: string[] = [];
-    const values: any[] = [];
-    keys.forEach((k, idx) => {
-      setClauses.push(`${k} = $${idx + 1}`);
-      values.push((fish as any)[k]);
-    });
+    const setClauses: string[] = entries.map(([key], idx) => `${key} = $${idx + 1}`);
+    const values: any[] = entries.map(([, value]) => value as any);
     // WHERE param position is next
     const whereIndex = values.length + 1;
     const sql = `UPDATE fishes SET ${setClauses.join(', ')} WHERE fish_id = $${whereIndex} RETURNING *`;

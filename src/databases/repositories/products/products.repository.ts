@@ -54,18 +54,21 @@ export class ProductsRepository {
   }
 
   async update(product_id: number, dto: UpdateProductDto): Promise<Product> {
-    const keys = Object.keys(dto);
-    if (keys.length === 0) {
+    const entries = Object.entries(dto).filter(
+      ([key, value]) =>
+        value !== undefined &&
+        value !== null 
+    );
+
+    if (entries.length === 0) {
       throw new BadRequestException(
         "No fields to update. (You can't update the id)",
       );
     }
-    const setClauses: string[] = [];
-    const values: any[] = [];
-    keys.forEach((k, idx) => {
-      setClauses.push(`${k} = $${idx + 1}`);
-      values.push((dto as any)[k]);
-    });
+
+    const setClauses: string[] = entries.map(([key], idx) => `${key} = $${idx + 1}`);
+    const values: any[] = entries.map(([, value]) => value as any);
+
     // WHERE param position is next
     const whereIndex = values.length + 1;
     const sql = `UPDATE products SET ${setClauses.join(', ')} WHERE product_id = $${whereIndex} RETURNING *`;

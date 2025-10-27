@@ -1,15 +1,14 @@
 import { IsNotEmpty, IsNumber, Min } from 'class-validator';
-import { Type } from 'class-transformer';
 
 export class AddFishToSiteDto {
   @IsNotEmpty()
   @IsNumber()
-  @Min(0)
+  @Min(1)
   site_id: number;
 
   @IsNotEmpty()
   @IsNumber()
-  @Min(0)
+  @Min(1)
   fish_id: number;
 }
 

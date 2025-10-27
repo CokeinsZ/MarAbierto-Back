@@ -5,6 +5,8 @@ import {
 } from './interfaces/product_pcategory.interface';
 import { ProductPcategoryRepository } from 'src/databases/repositories/product_pcategory/product_pcategory.repository';
 import { CreateProductPcategoryDto } from './dtos/product_pcategory.dto';
+import { PCategory } from 'src/pcategories/interfaces/pcategory.interface';
+import { Product } from 'src/products/interfaces/product.interface';
 
 @Injectable()
 export class ProductPcategoryService
@@ -16,11 +18,11 @@ export class ProductPcategoryService
     return this.repository.createProductPcategory(dto);
   }
 
-  async findByProductId(id: string): Promise<ProductPcategory | null> {
+  async findByProductId(id: string): Promise<PCategory[] | null> {
     return this.repository.findByProductId(id);
   }
 
-  async findByPcategoryId(id: string): Promise<ProductPcategory | null> {
+  async findByPcategoryId(id: string): Promise<Product[] | null> {
     return this.repository.findByPcategoryId(id);
   }
 

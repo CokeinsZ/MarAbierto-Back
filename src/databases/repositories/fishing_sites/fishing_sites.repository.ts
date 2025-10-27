@@ -40,18 +40,17 @@ export class FishingSitesRepository {
     id: number,
     fishingSite: Partial<FishingSite>,
   ): Promise<FishingSite> {
-    const keys = Object.keys(fishingSite).filter((k) => k !== 'site_id');
-    if (keys.length === 0) {
+    // Only include provided fields (not undefined/null) and never allow updating the PK
+    const entries = Object.entries(fishingSite).filter(
+      ([key, value]) => value !== undefined && value !== null && key !== 'site_id' && key !== 'id',
+    );
+    if (entries.length === 0) {
       throw new BadRequestException(
         "No fields to update. (You can't update the id)",
       );
     }
-    const setClauses: string[] = [];
-    const values: any[] = [];
-    keys.forEach((k, idx) => {
-      setClauses.push(`${k} = $${idx + 1}`);
-      values.push((fishingSite as any)[k]);
-    });
+    const setClauses: string[] = entries.map(([key], idx) => `${key} = $${idx + 1}`);
+    const values: any[] = entries.map(([, value]) => value as any);
     // WHERE param position is next
     const whereIndex = values.length + 1;
     const sql = `UPDATE fishingsites SET ${setClauses.join(', ')} WHERE site_id = $${whereIndex} RETURNING *`;
