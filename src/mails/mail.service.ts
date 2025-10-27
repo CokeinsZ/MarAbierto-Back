@@ -34,7 +34,7 @@ export class MailService implements MailServiceInterface {
         `Email sent to ${options.to} subject="${options.subject}"`,
       );
     } catch (error) {
-      this.logger.error('Failed to send email', error as any);
+      this.logger.error('Failed to send email', error);
       throw error;
     }
   }

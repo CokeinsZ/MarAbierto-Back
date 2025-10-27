@@ -89,28 +89,13 @@ export class AbilityFactory {
     });
 
     rules.push({
-      action: Action.Delete,
-      subject: 'Order',
-    });
+      action: Action.Create,
+      subject: 'Payment',
+    }); 
 
     rules.push({
       action: Action.Read,
-      subject: 'Cart',
-    });
-
-    rules.push({
-      action: Action.Create,
-      subject: 'Cart',
-    });
-
-    rules.push({
-      action: Action.Update,
-      subject: 'Cart',
-    });
-
-    rules.push({
-      action: Action.Delete,
-      subject: 'Cart',
+      subject: 'Payment',
     });
 
     rules.push({

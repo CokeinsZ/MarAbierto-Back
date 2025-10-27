@@ -11,6 +11,8 @@ import { PCategoriesRepository } from './repositories/pcategories/pcategories.re
 import { WarehouseRepository } from './repositories/warehouse/warehouse.repository';
 import { ProductPcategoryRepository } from './repositories/product_pcategory/product_pcategory.repository';
 import { WarehouseProductRepository } from './repositories/warehouse_product/warehouse_product.repository';
+import { OrdersRepository } from './repositories/orders/orders.repository';
+import { PaymentsRepository } from './repositories/payments/payments.repository';
 
 @Module({
   providers: [
@@ -26,6 +28,8 @@ import { WarehouseProductRepository } from './repositories/warehouse_product/war
     WarehouseRepository,
     ProductPcategoryRepository,
     WarehouseProductRepository,
+    OrdersRepository,
+    PaymentsRepository,
   ],
   exports: [
     DatabaseService,
@@ -40,6 +44,8 @@ import { WarehouseProductRepository } from './repositories/warehouse_product/war
     WarehouseRepository,
     ProductPcategoryRepository,
     WarehouseProductRepository,
+    OrdersRepository,
+    PaymentsRepository,
   ],
 })
 export class DatabaseModule {}

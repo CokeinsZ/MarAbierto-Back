@@ -19,6 +19,8 @@ import { WarehouseProductModule } from './warehouse_product/warehouse_product.mo
 import { ProductPcategoryModule } from './product_pcategory/product_pcategory.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { PcategoriesModule } from './pcategories/pcategories.module';
+import { OrdersModule } from './orders/orders.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { PcategoriesModule } from './pcategories/pcategories.module';
     WarehouseModule,
     ProductPcategoryModule,
     WarehouseProductModule,
+    OrdersModule,
+    PaymentsModule,
   ],
   controllers: [],
   providers: [
