@@ -9,6 +9,6 @@ export interface ProductPcategory {
 export interface ProductPcategoryServiceInterface {
   create(data: ProductPcategory): Promise<ProductPcategory>;
   findByProductId(id: string): Promise<PCategory[] | null>;
-  findByPcategoryId(id: string): Promise<Product[] | null>;
+  findByPcategoryId(id: string): Promise<{category: PCategory, products: Product[]} | null>;
   delete(id: string): Promise<void>;
 }

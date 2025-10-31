@@ -22,7 +22,7 @@ export class ProductPcategoryService
     return this.repository.findByProductId(id);
   }
 
-  async findByPcategoryId(id: string): Promise<Product[] | null> {
+  async findByPcategoryId(id: string): Promise<{category: PCategory, products: Product[]} | null> {
     return this.repository.findByPcategoryId(id);
   }
 

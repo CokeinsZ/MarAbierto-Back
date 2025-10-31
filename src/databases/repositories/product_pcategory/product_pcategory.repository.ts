@@ -27,12 +27,16 @@ export class ProductPcategoryRepository {
     return result || null;
   }
 
-  async findByPcategoryId(id: string): Promise<Product[] | null> {
-    const result = await this.db.query<Product>`
+  async findByPcategoryId(id: string): Promise<{category: PCategory, products: Product[]} | null> {
+    const categoryResult = await this.db.query<PCategory>`
+      SELECT c.* FROM pcategories c
+      WHERE c.pcategory_id = ${id}`;
+    const productsResult = await this.db.query<Product>`
       SELECT p.* FROM products p
       JOIN product_pcategory pc ON pc.product_id = p.product_id
       WHERE pc.pcategory_id = ${id}`;
-    return result || null;
+    if (!categoryResult || productsResult.length === 0) return null;
+    return { category: categoryResult[0], products: productsResult };
   }
 
   async delete(id: string): Promise<void> {
