@@ -1,0 +1,41 @@
+services:
+  app:
+    build: .
+    container_name: api_nest
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - springnet
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/baseUsuarios
+      SPRING_DATASOURCE_USERNAME: appuser
+      SPRING_DATASOURCE_PASSWORD: admin123
+
+  mysql:
+    image: mysql:8.4.7
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: baseUsuarios
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: admin123
+    ports:
+      - "7462:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - springnet
+
+volumes:
+  mysql_data:
+networks:
+  springnet:
+      
+
+  

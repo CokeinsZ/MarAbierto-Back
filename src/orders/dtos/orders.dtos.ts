@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { orderStatus } from '../interfaces/orders.interface';
+import { paymentMethod } from 'src/payments/interfaces/payment.interface';
 
 export class ProductItemDto {
   @IsNotEmpty()
@@ -32,9 +33,8 @@ export class CreateOrderDto {
   user_id: string;
 
   @IsNotEmpty()
-  @IsString()
-  @MaxLength(255)
-  payment_method: string;
+  @IsEnum(paymentMethod)
+  payment_method: paymentMethod;
 
   @IsNotEmpty()
   @IsArray()

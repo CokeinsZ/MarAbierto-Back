@@ -21,6 +21,7 @@ import { WarehouseModule } from './warehouse/warehouse.module';
 import { PcategoriesModule } from './pcategories/pcategories.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
+import { StatsModule } from './stats/stats.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { PaymentsModule } from './payments/payments.module';
     WarehouseProductModule,
     OrdersModule,
     PaymentsModule,
+    StatsModule,
   ],
   controllers: [],
   providers: [

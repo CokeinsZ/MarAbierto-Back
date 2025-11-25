@@ -8,8 +8,8 @@ export enum paymentStatus {
 }
 
 export enum paymentMethod {
-  CREDIT_CARD = 'credit_card',
-  DEBIT_CARD = 'debit_card',
+  CREDIT_CARD = 'credit card',
+  DEBIT_CARD = 'debit card',
   TRANSFER = 'transfer',
 }
 
