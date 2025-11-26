@@ -35,7 +35,7 @@ export class FindAllDto {
   @IsNumber()
   @Min(1)
   @Max(100)
-  max: number = 10;
+  max: number = 100;
 
   @IsNotEmpty()
   @Type(() => Number)
