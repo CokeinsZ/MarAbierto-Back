@@ -88,6 +88,8 @@ export class ProductsService implements ProductServiceInterface {
       img: product.img,
       created_at: product.created_at,
       updated_at: product.updated_at,
+      categories: product.categories || [],
+      warehouses: product.warehouses || [],
     };
   }
 }

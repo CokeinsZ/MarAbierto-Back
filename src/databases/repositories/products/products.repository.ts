@@ -5,6 +5,8 @@ import {
   CreateProductDto,
   UpdateProductDto,
 } from 'src/products/dtos/product.dto';
+import { PCategory } from '../../../pcategories/interfaces/pcategory.interface';
+import { Warehouse } from '../../../warehouse/interfaces/warehouse.interface';
 
 @Injectable()
 export class ProductsRepository {
@@ -19,15 +21,78 @@ export class ProductsRepository {
   }
 
   async findAll(limit: number, page: number): Promise<Product[]> {
-    const rows = await this.db.query<Product>`
-      SELECT * FROM products
+    const rows = await this.db.query<any>`
+      SELECT 
+        p.*,
+        COALESCE(
+          json_agg(
+            DISTINCT jsonb_build_object(
+              'pcategory_id', pc.pcategory_id,
+              'name', pc.name
+            )
+          ) FILTER (WHERE pc.pcategory_id IS NOT NULL),
+          '[]'
+        ) as categories,
+        COALESCE(
+          json_agg(
+            DISTINCT jsonb_build_object(
+              'warehouse', jsonb_build_object(
+                'id', w.warehouse_id,
+                'name', w.name,
+                'city', w.city,
+                'address', w.address,
+                'status', w.status
+              ),
+              'stock', wp.quantity
+            )
+          ) FILTER (WHERE w.warehouse_id IS NOT NULL),
+          '[]'
+        ) as warehouses
+      FROM products p
+      LEFT JOIN product_pcategory ppc ON ppc.product_id = p.product_id
+      LEFT JOIN pcategories pc ON pc.pcategory_id = ppc.pcategory_id
+      LEFT JOIN warehouse_product wp ON wp.product_id = p.product_id
+      LEFT JOIN warehouse w ON w.warehouse_id = wp.warehouse_id
+      GROUP BY p.product_id
       LIMIT ${limit} OFFSET ${page}`;
     return rows;
   }
 
   async findById(product_id: number): Promise<Product | null> {
-    const rows = await this.db.query<Product>`
-      SELECT * FROM products WHERE product_id = ${product_id}`;
+    const rows = await this.db.query<any>`
+      SELECT 
+        p.*,
+        COALESCE(
+          json_agg(
+            DISTINCT jsonb_build_object(
+              'pcategory_id', pc.pcategory_id,
+              'name', pc.name
+            )
+          ) FILTER (WHERE pc.pcategory_id IS NOT NULL),
+          '[]'
+        ) as categories,
+        COALESCE(
+          json_agg(
+            DISTINCT jsonb_build_object(
+              'warehouse', jsonb_build_object(
+                'id', w.warehouse_id,
+                'name', w.name,
+                'city', w.city,
+                'address', w.address,
+                'status', w.status
+              ),
+              'stock', wp.quantity
+            )
+          ) FILTER (WHERE w.warehouse_id IS NOT NULL),
+          '[]'
+        ) as warehouses
+      FROM products p
+      LEFT JOIN product_pcategory ppc ON ppc.product_id = p.product_id
+      LEFT JOIN pcategories pc ON pc.pcategory_id = ppc.pcategory_id
+      LEFT JOIN warehouse_product wp ON wp.product_id = p.product_id
+      LEFT JOIN warehouse w ON w.warehouse_id = wp.warehouse_id
+      WHERE p.product_id = ${product_id}
+      GROUP BY p.product_id`;
     return rows[0] || null;
   }
 

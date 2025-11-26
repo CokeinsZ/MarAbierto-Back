@@ -3,6 +3,13 @@ import {
   FindAllDto,
   UpdateProductDto,
 } from '../dtos/product.dto';
+import { PCategory } from '../../pcategories/interfaces/pcategory.interface';
+import { Warehouse } from '../../warehouse/interfaces/warehouse.interface';
+
+export interface ProductWarehouse {
+  warehouse: Warehouse;
+  stock: number;
+}
 
 export interface Product {
   product_id: number;
@@ -12,6 +19,8 @@ export interface Product {
   img: string;
   created_at: Date;
   updated_at: Date;
+  categories?: PCategory[];
+  warehouses?: ProductWarehouse[];
 }
 
 export interface ProductServiceInterface {
