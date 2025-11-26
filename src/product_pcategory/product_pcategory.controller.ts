@@ -31,10 +31,13 @@ export class ProductPcategoryController {
     return this.service.findByPcategoryId(id);
   }
 
-  @Delete(':id')
+  @Delete(':product_id/:pcategory_id')
   @CheckPolicies({ action: Action.Delete, subject: 'ProductPcategory' })
-  async delete(@Param('id') id: string) {
-    await this.service.delete(id);
+  async delete(
+    @Param('product_id') product_id: string,
+    @Param('pcategory_id') pcategory_id: string,
+  ) {
+    await this.service.delete(product_id, pcategory_id);
     return { message: 'Product-Pcategory association deleted successfully.' };
   }
 }

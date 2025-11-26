@@ -26,7 +26,7 @@ export class ProductPcategoryService
     return this.repository.findByPcategoryId(id);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.repository.delete(id);
+  async delete(product_id: string, pcategory_id: string): Promise<void> {
+    await this.repository.delete(product_id, pcategory_id);
   }
 }

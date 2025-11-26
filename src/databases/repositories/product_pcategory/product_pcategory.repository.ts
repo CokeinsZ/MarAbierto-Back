@@ -39,8 +39,9 @@ export class ProductPcategoryRepository {
     return { category: categoryResult[0], products: productsResult };
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(product_id: string, pcategory_id: string): Promise<void> {
     await this.db.query`
-      DELETE FROM product_pcategory WHERE id = ${id}`;
+      DELETE FROM product_pcategory 
+      WHERE product_id = ${product_id} AND pcategory_id = ${pcategory_id}`;
   }
 }
