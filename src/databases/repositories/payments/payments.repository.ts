@@ -19,7 +19,7 @@ export class PaymentsRepository {
     const rows = await this.db.query<[Payment, number]>`
       SELECT p.*, o.user_id FROM payments p
       JOIN orders o ON o.order_id = p.order_id
-      WHERE order_id = ${order_id}`;
+      WHERE p.order_id = ${order_id}`;
     return rows[0];
   }
 

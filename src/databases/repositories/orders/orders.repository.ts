@@ -95,7 +95,7 @@ export class OrdersRepository {
     const rows = await this.db.unsafe<any>(
       `SELECT u.user_id::text, u.name, u.national_id, u.address, u.phone, u.email
        FROM users u
-       JOIN orders o ON o.user_id = u.user_id::text OR o.user_id::text = u.user_id::text
+       JOIN orders o ON o.user_id = u.user_id
        WHERE o.order_id = $1
        LIMIT 1`,
       [order_id],

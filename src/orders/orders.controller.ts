@@ -23,7 +23,7 @@ export class OrdersController {
 		return this.ordersService.createOrder(dto);
 	}
 
-	@Public()
+	@CheckPolicies({ action: Action.Read, subject: 'Order' })
 	@Get(':order_id')
   @CheckPolicies({ action: Action.Read, subject: 'Order' })
 	async getById(@Param('order_id') order_id: string, @Request() req) {
