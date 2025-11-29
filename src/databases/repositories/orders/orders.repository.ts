@@ -85,7 +85,7 @@ export class OrdersRepository {
 
   async getOrderProducts(order_id: string): Promise<Product[]> {
     const rows = await this.db.query<Product>`
-      SELECT p.*
+      SELECT p.*, od.quantity
       FROM orderdetails od
       JOIN products p ON p.product_id = od.product_id
       WHERE od.order_id = ${order_id}`;

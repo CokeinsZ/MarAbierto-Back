@@ -21,6 +21,7 @@ export interface Product {
   updated_at: Date;
   categories?: PCategory[];
   warehouses?: ProductWarehouse[];
+  quantity?: number;
 }
 
 export interface ProductServiceInterface {
