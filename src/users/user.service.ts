@@ -185,6 +185,33 @@ export class UsersService implements UserServiceInterface {
     };
   }
 
+  async validateToken(token: string): Promise<{
+    valid: boolean;
+    userId?: number;
+    email?: string;
+    role?: string;
+  }> {
+    try {
+      const payload = this.jwtService.verify(token, {
+        secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
+      });
+
+      const user = await this.userRepository.findById(payload.sub);
+      if (!user || user.status !== user_status.ACTIVE) {
+        return { valid: false };
+      }
+
+      return {
+        valid: true,
+        userId: payload.sub,
+        email: payload.email,
+        role: payload.role,
+      };
+    } catch (error) {
+      return { valid: false };
+    }
+  }
+
   private toUserInterface(user: any): User {
     return {
       user_id: user.user_id,

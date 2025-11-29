@@ -71,6 +71,12 @@ export class UserController {
     return this.usersService.login(loginDto);
   }
 
+  @Public()
+  @Post('validate-token')
+  validateToken(@Body() body: { token: string }) {
+    return this.usersService.validateToken(body.token);
+  }
+
   @Get()
   @Roles('admin')
   findAll() {
