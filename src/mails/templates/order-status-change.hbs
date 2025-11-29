@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Actualización de Orden</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .content {
+      padding: 30px 20px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin: 15px 0;
+      font-size: 18px;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-received {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .status-sent {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .status-canceled {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .order-info {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #eeeeee;
+      color: #777777;
+      font-size: 12px;
+    }
+
+    h1 {
+      color: #4a6ee0;
+      margin: 0;
+    }
+
+    h2 {
+      color: #333333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>{{appName}}</h1>
+    </div>
+
+    <div class="content">
+      <h2>Hola {{name}},</h2>
+      <p>Tu orden ha sido actualizada.</p>
+
+      <div class="order-info">
+        <p><strong>Número de Orden:</strong> {{orderId}}</p>
+        <p><strong>Nuevo Estado:</strong></p>
+        <span class="status-badge status-{{newStatus}}">{{newStatusText}}</span>
+      </div>
+
+      {{#if message}}
+      <p>{{message}}</p>
+      {{/if}}
+
+      <p>Puedes consultar los detalles de tu orden en cualquier momento desde tu cuenta.</p>
+    </div>
+
+    <div class="footer">
+      <p>&copy; {{year}} {{appName}}. Todos los derechos reservados.</p>
+      <p><a href="{{appUrl}}">Visitar {{appName}}</a></p>
+    </div>
+  </div>
+</body>
+
+</html>

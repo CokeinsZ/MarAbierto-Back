@@ -111,12 +111,38 @@ export class UsersService implements UserServiceInterface {
       statusDto.status,
     );
     if (!user) throw new NotFoundException('User not found');
+    
+    // Enviar correo al usuario
+    try {
+      await this.mailService.sendUserStatusChangeEmail(
+        user.email,
+        user.name,
+        statusDto.status,
+      );
+    } catch (error) {
+      // Log error pero no fallar la actualización
+      console.error('Error sending user status email:', error);
+    }
+    
     return this.toUserInterface(user);
   }
 
   async updateRole(id: number, roleDto: UpdateUserRoleDto): Promise<User> {
     const user = await this.userRepository.updateUserRole(id, roleDto.role);
     if (!user) throw new NotFoundException('User not found');
+    
+    // Enviar correo al usuario
+    try {
+      await this.mailService.sendUserRoleChangeEmail(
+        user.email,
+        user.name,
+        roleDto.role,
+      );
+    } catch (error) {
+      // Log error pero no fallar la actualización
+      console.error('Error sending user role email:', error);
+    }
+    
     return this.toUserInterface(user);
   }
 

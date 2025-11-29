@@ -3,12 +3,14 @@ import { OrdersRepository } from 'src/databases/repositories/orders/orders.repos
 import { PaymentsRepository } from 'src/databases/repositories/payments/payments.repository';
 import { Order, OrderServiceInterface, PopulatedOrder } from './interfaces/orders.interface';
 import { CreateOrderDto, UpdateOrderStatusDto } from './dtos/orders.dtos';
+import { MailService } from 'src/mails/mail.service';
 
 @Injectable()
 export class OrdersService implements OrderServiceInterface {
 	constructor(
 		private readonly ordersRepository: OrdersRepository,
 		private readonly paymentsRepository: PaymentsRepository,
+		private readonly mailService: MailService,
 	) {}
 
 	async createOrder(dto: CreateOrderDto): Promise<Order> {
@@ -54,13 +56,51 @@ export class OrdersService implements OrderServiceInterface {
 	async updateOrderStatus(order_id: string, dto: UpdateOrderStatusDto): Promise<Order> {
 		const existing = await this.ordersRepository.getOrderById(order_id);
 		if (!existing) throw new NotFoundException('Order not found');
-		return this.ordersRepository.updateOrderStatus(order_id, dto.status);
+		
+		const updated = await this.ordersRepository.updateOrderStatus(order_id, dto.status);
+		
+		// Enviar correo al usuario
+		try {
+			const user = await this.ordersRepository.getOrderUser(order_id);
+			if (user && user.email) {
+				await this.mailService.sendOrderStatusChangeEmail(
+					user.email,
+					user.name,
+					order_id,
+					dto.status,
+				);
+			}
+		} catch (error) {
+			// Log error pero no fallar la actualización
+			console.error('Error sending order status email:', error);
+		}
+		
+		return updated;
 	}
 
 		async cancelOrder(order_id: string): Promise<Order> {
 			const existing = await this.ordersRepository.getOrderById(order_id);
 			if (!existing) throw new NotFoundException('Order not found');
 			if (existing.status === 'canceled') return existing;
-			return this.ordersRepository.cancelOrder(order_id);
+			
+			const canceled = await this.ordersRepository.cancelOrder(order_id);
+			
+			// Enviar correo al usuario
+			try {
+				const user = await this.ordersRepository.getOrderUser(order_id);
+				if (user && user.email) {
+					await this.mailService.sendOrderStatusChangeEmail(
+						user.email,
+						user.name,
+						order_id,
+						'canceled',
+					);
+				}
+			} catch (error) {
+				// Log error pero no fallar la cancelación
+				console.error('Error sending order cancellation email:', error);
+			}
+			
+			return canceled;
 		}
 }
