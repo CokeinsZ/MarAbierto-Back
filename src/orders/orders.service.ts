@@ -46,6 +46,11 @@ export class OrdersService implements OrderServiceInterface {
 		return this.ordersRepository.listOrdersByUser(user_id);
 	}
 
+	async listAllOrders(page: number, max: number): Promise<Order[]> {
+		const offset = (page - 1) * max;
+		return this.ordersRepository.listAllOrders(offset, max);
+	}
+
 	async updateOrderStatus(order_id: string, dto: UpdateOrderStatusDto): Promise<Order> {
 		const existing = await this.ordersRepository.getOrderById(order_id);
 		if (!existing) throw new NotFoundException('Order not found');

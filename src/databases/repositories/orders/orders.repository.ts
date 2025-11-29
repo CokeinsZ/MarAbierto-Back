@@ -63,6 +63,14 @@ export class OrdersRepository {
     return orders;
   }
 
+  async listAllOrders(offset: number, max: number): Promise<Order[]> {
+    const orders = await this.db.query<Order>`
+      SELECT * FROM orders
+      ORDER BY created_at DESC
+      LIMIT ${max} OFFSET ${offset}`;
+    return orders;
+  }
+
   async updateOrderStatus(
     order_id: string,
     status: string,

@@ -1,14 +1,20 @@
-import { Controller, Post, Get, Param, Body, Patch, Request, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body, Patch, Request, Query, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { Public } from 'src/tools/decorators/public.decorator';
 import { CheckPolicies } from 'src/tools/decorators/check-policies.decorator';
 import { Roles } from 'src/tools/decorators/roles.decorator';
 import { Action } from 'src/tools/abilities/ability.factory';
-import { CreateOrderDto, UpdateOrderStatusDto } from './dtos/orders.dtos';
+import { CreateOrderDto, UpdateOrderStatusDto, PaginationDto } from './dtos/orders.dtos';
 
 @Controller('orders')
 export class OrdersController {
 	constructor(private readonly ordersService: OrdersService) {}
+
+	@Get()
+	@Roles('admin')
+	listAll(@Query() paginationDto: PaginationDto) {
+		return this.ordersService.listAllOrders(paginationDto.page, paginationDto.max);
+	}
 
 	@Post()
   @CheckPolicies({ action: Action.Create, subject: 'Order' })

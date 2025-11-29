@@ -7,6 +7,7 @@ import {
   IsArray,
   ValidateNested,
   IsEnum,
+  IsOptional,
 } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { orderStatus } from '../interfaces/orders.interface';
@@ -57,4 +58,18 @@ export class UpdateOrderStatusDto {
     message: `status must be one of: ${Object.values(orderStatus).join(', ')}`,
   })
   status: string;
+}
+
+export class PaginationDto {
+  @IsNotEmpty()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(1)
+  page: number = 1;
+
+  @IsNotEmpty()
+  @Type(() => Number)
+  @IsNumber()
+  @Min(1)
+  max: number = 100;
 }
